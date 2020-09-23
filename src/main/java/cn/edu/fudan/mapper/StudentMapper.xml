@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.fudan.mapper.StudentMapper">
+   <insert id="insertStudentInfo" parameterType="List">
+      insert into student.student
+      (
+      studentId,
+      name,
+      department,
+      major
+      )
+      VALUES
+      <foreach collection="list" item="item" index="index" separator=",">
+         (
+         #{item.studentId},
+         #{item.name},
+         #{item.department},
+         #{item.major}
+         )
+      </foreach>
+   </insert>
+
+   <select id="getStudentInfo" resultType="java.util.HashMap">
+      SELECT * FROM student.student
+   </select>
+
+   <update id="updateStudentInfo">
+      UPDATE student.student
+      SET studentId = #{studentId}, name = #{name}, department = #{department}, major = #{major}
+      where studentId = #{studentId}
+   </update>
+
+   <delete id="deleteStudentInfo">
+      DELETE FROM student.student
+      WHERE studentId = #{studentId}
+   </delete>
+</mapper>

@@ -1,0 +1,38 @@
+version: '3'
+
+# 当容器内应用希望连接其他服务时
+# 需要先让他们在一个网络中，然后通过 container_name 相互连接
+# 注意：连接的域名需要全部改成 container_name
+networks: 
+  fdse-net:
+    driver: bridge
+
+services:
+  mysql-fdse:
+    # 指定镜像和版本
+    image: mysql:5.7
+    # 自启动
+    restart: on-failure
+    environment:
+      TZ: Asis/Shanghai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+    volumes:
+      # 挂载数据目录
+      - "${MYSQL_DIR}/data:/var/lib/mysql"
+      # 挂载配置文件目录
+      - "${MYSQL_DIR}/config/my.cnf:/etc/mysql/conf.d/my.cnf"
+      # 挂载初始数据库数据目录
+      - "${MYSQL_DIR}/init:/docker-entrypoint-initdb.d/"
+    networks: 
+      - fdse-net
+
+  spring-fdse:
+    # 从 spring 文件夹内的 Dockerfile 构建镜像
+    build: ${SPRING_BOOT_DIR}/.
+    ports:
+      - "80:8080"
+    depends_on: 
+      - mysql-fdse
+    networks: 
+      - fdse-net
