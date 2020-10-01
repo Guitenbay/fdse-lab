@@ -1,0 +1,22 @@
+.tabsList{
+    text-align: center;
+}
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-list, .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list{
+    margin-left: 35%;
+}
+.ant-form-item-control-input-content{
+    max-width: 50%;
+}
+.ant-col-16{
+    width: 35%;
+}
+.title{
+    margin-top: 30px;
+    margin-bottom: 10px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.ant-table-thead > tr > th{
+    font-weight: bold;
+}
