@@ -4,5 +4,8 @@
 /dist
 /target
 
+# sonarlint
+/.idea/sonarlint
+
 # misc
 .DS_Store

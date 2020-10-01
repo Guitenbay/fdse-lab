@@ -30,9 +30,29 @@ services:
   spring-fdse:
     # 从 spring 文件夹内的 Dockerfile 构建镜像
     build: ${SPRING_BOOT_DIR}/.
-    ports:
-      - "80:8080"
+    restart: on-failure
     depends_on: 
       - mysql-fdse
     networks: 
       - fdse-net
+
+  nginx-fdse:
+    # 镜像:版本
+    image: nginx:latest 
+    restart: on-failure
+    # 映射容器80端口到本地80端口
+    ports:
+      - "80:80"
+      - "8005:8005"
+    # 数据卷 映射本地文件到容器
+    volumes:
+    # 映射 nginx.conf 文件到容器的 /etc/nginx/conf.d 目录并覆盖 default.conf 文件
+      - ${NGINX_DIR}/nginx.conf:/etc/nginx/conf.d/default.conf
+    # 映射build文件夹到容器的 /usr/share/nginx/html 文件夹
+      - ${NGINX_DIR}/build:/usr/share/nginx/html
+    # 覆盖容器启动后默认执行的命令。
+    depends_on: 
+      - spring-fdse
+    networks:
+      - fdse-net
+    command: /bin/bash -c "nginx -g 'daemon off;'"

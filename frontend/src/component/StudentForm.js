@@ -3,6 +3,7 @@ import { Tabs, Form, Input, Button, Select, Table } from 'antd';
 import 'antd/dist/antd.css'
 import './StudentForm.css'
 import  { get, post, put, deleteFunction } from '../request/requst'
+import { URL_ROOT } from '../api.config';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -30,7 +31,7 @@ class StudentForm extends React.Component{
     }
 
     getStudentData(){
-        const url = "http://127.0.0.1:8005/api/v1/student";
+        const url = `${URL_ROOT}/api/v1/student`;
         get(url).then(d=>{
             if(d.data && d.code === 200){
                 this.setState({
@@ -48,7 +49,7 @@ class StudentForm extends React.Component{
         let studentList = [];
         studentList.push(values);
         studentInfo.studentList = studentList;
-        const url = "http://127.0.0.1:8005/api/v1/student";
+        const url = `${URL_ROOT}/api/v1/student`;
         post(url, studentInfo).then(d=>{
             alert(d.msg);
             if(d.msg === "success!"){
@@ -58,7 +59,7 @@ class StudentForm extends React.Component{
     };
 
     onChangeStudentInfo = values => {
-        const url = "http://127.0.0.1:8005/api/v1/student";
+        const url = `${URL_ROOT}/api/v1/student`;
         put(url, values).then(d=>{
             alert(d.msg);
             if(d.msg === "success!"){
@@ -68,7 +69,7 @@ class StudentForm extends React.Component{
     }
 
     onDeleteStudentInfo = values => {
-        const url = "http://127.0.0.1:8005/api/v1/student";
+        const url = `${URL_ROOT}/api/v1/student`;
         deleteFunction(url, values).then(d=>{
             alert(d.msg);
             if(d.msg === "success!"){

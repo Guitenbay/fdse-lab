@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Beethoven
  */
 @RestController
+@CrossOrigin
 public class StudentController {
 
     @Autowired
